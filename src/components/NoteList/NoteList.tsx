@@ -11,8 +11,8 @@ export default function NoteList({ notes, onDelete }: NoteListProps) {
 
   return (
     <ul className={styles.list}>
-      {notes.map(({ _id, title, content, tag }) => (
-        <li key={_id} className={styles.listItem}>
+      {notes.map(({ id, title, content, tag }) => (
+        <li key={id} className={styles.listItem}>
           <h2 className={styles.title}>{title}</h2>
           <p className={styles.content}>{content}</p>
           <div className={styles.footer}>
@@ -20,7 +20,7 @@ export default function NoteList({ notes, onDelete }: NoteListProps) {
             <button
               type="button"
               className={styles.button}
-              onClick={() => onDelete(_id)}
+              onClick={() => onDelete(id)}
             >
               Delete
             </button>

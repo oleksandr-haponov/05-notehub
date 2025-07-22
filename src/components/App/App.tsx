@@ -11,7 +11,6 @@ import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 import { fetchNotes, deleteNote } from '../../services/noteService';
-import type { Note } from '../../types/note';
 
 import styles from './App.module.css';
 
@@ -25,7 +24,11 @@ export default function App() {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['notes', debouncedSearch, page],
-    queryFn: () => fetchNotes({ search: debouncedSearch, page }),
+    queryFn: () =>
+      fetchNotes({
+        search: debouncedSearch.trim() === '' ? undefined : debouncedSearch,
+        page,
+      }),
   });
 
   const deleteMutation = useMutation({
@@ -46,7 +49,7 @@ export default function App() {
     <div className={styles.app}>
       <header className={styles.toolbar}>
         <SearchBox value={search} onChange={e => setSearch(e.target.value)} />
-        {data && data.totalPages > 1 && (
+        {data?.totalPages > 1 && (
           <Pagination
             currentPage={page}
             totalPages={data.totalPages}
@@ -61,7 +64,7 @@ export default function App() {
       {isLoading && <Loader />}
       {isError && <ErrorMessage message={(error as Error).message} />}
 
-      {data && data.results.length > 0 ? (
+      {data?.results?.length ? (
         <NoteList notes={data.results} onDelete={handleDelete} />
       ) : (
         !isLoading && <p>No notes found</p>
