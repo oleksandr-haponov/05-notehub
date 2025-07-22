@@ -49,7 +49,7 @@ export default function App() {
     <div className={styles.app}>
       <header className={styles.toolbar}>
         <SearchBox value={search} onChange={e => setSearch(e.target.value)} />
-        {data?.totalPages > 1 && (
+        {data?.totalPages && data.totalPages > 1 && (
           <Pagination
             currentPage={page}
             totalPages={data.totalPages}
