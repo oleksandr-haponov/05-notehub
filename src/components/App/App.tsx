@@ -18,8 +18,8 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-const openModal = () => setIsModalOpen(true);
-const closeModal = () => setIsModalOpen(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const queryClient = useQueryClient();
 
@@ -55,7 +55,9 @@ const closeModal = () => setIsModalOpen(false);
             onPageChange={setPage}
           />
         )}
-        {/* Button to open modal */}
+        <button className={styles.button} onClick={openModal}>
+          Create note +
+        </button>
       </header>
 
       {isLoading && <p>Loading...</p>}
@@ -65,6 +67,12 @@ const closeModal = () => setIsModalOpen(false);
         <NoteList notes={data.results} onDelete={handleDelete} />
       ) : (
         !isLoading && <p>No notes found</p>
+      )}
+
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <NoteForm onSuccess={closeModal} />
+        </Modal>
       )}
     </div>
   );
