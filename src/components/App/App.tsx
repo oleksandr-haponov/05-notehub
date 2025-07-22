@@ -9,7 +9,6 @@ import Pagination from '../Pagination/Pagination';
 import NoteList from '../NoteList/NoteList';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import type { Note } from '../../types/note';
 
 import { fetchNotes, deleteNote } from '../../services/noteService';
 
