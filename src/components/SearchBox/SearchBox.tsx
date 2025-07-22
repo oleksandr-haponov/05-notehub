@@ -1,4 +1,4 @@
-import { type ChangeEvent } from 'react';
+import type { ChangeEvent } from 'react';
 import styles from './SearchBox.module.css';
 
 export interface SearchBoxProps {
