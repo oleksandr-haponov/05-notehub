@@ -5,17 +5,20 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  /* gap: 32px; */
   background-color: #f8f9fa;
 }
 
 
 .toolbar {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #dee2e6;
+  flex-wrap: wrap;
 }
 
 .button {
