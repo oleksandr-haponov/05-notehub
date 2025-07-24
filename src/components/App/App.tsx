@@ -64,8 +64,8 @@ export default function App() {
       {isLoading && <Loader />}
       {isError && <ErrorMessage message={(error as Error).message} />}
 
-      {data?.results?.length ? (
-        <NoteList notes={data.results} onDelete={handleDelete} />
+      {data?.notes?.length ? (
+        <NoteList notes={data.notes} onDelete={handleDelete} />
       ) : (
         !isLoading && <p>No notes found</p>
       )}
