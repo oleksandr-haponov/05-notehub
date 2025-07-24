@@ -21,8 +21,21 @@
     border: 1px solid #ced4da;
     border-radius: 4px;
     resize: none;
+    background-color: #ffffff;
+    background-image: none; 
+    color: #212529;
+      appearance: none;           
+  -webkit-appearance: none;     
+  -moz-appearance: none;   
   }
-  
+
+  .input:focus,
+  .textarea:focus,
+  .select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+  }
+
   .actions {
     display: flex;
     justify-content: flex-end;
