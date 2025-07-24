@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Note, NoteTag } from '../types/note';
 
-const BASE_URL = 'https://notehub-public.goit.study/api/notes';
+const BASE_URL = 'https://notehub-public.goit.study/api';
 const TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
 
 const instance = axios.create({
@@ -19,7 +19,7 @@ interface FetchNotesParams {
 }
 
 interface FetchNotesResponse {
-  results: Note[];
+  notes: Note[];
   totalPages: number;
 }
 
@@ -34,10 +34,10 @@ export const fetchNotes = async ({
     params.search = search.trim();
   }
 
-  const { data } = await instance.get<{ notes: Note[]; totalPages: number }>('/', { params });
+  const { data } = await instance.get<{ notes: Note[]; totalPages: number }>('/notes', { params });
 
   return {
-    results: data.notes,
+    notes: data.notes,
     totalPages: data.totalPages,
   };
 };
@@ -49,11 +49,11 @@ interface CreateNotePayload {
 }
 
 export const createNote = async (note: CreateNotePayload): Promise<Note> => {
-  const { data } = await instance.post<Note>('/', note);
+  const { data } = await instance.post<Note>('/notes', note);
   return data;
 };
 
-export const deleteNote = async (id: string): Promise<Note> => {
-  const { data } = await instance.delete<Note>(`/${id}`);
+export const deleteNote = async (id: string | number): Promise<Note> => {
+  const { data } = await instance.delete<Note>(`/notes/${id}`);
   return data;
 };
