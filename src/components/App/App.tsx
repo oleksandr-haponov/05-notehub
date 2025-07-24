@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
 import Modal from '../Modal/Modal';
@@ -16,29 +16,24 @@ import styles from './App.module.css';
 
 export default function App() {
   const [search, setSearch] = useState('');
-  const [debouncedSearch] = useDebounce(search, 300);
-  const [actualSearch, setActualSearch] = useState('');
   const [page, setPage] = useState(1);
+  const [debouncedSearch] = useDebounce(search, 300);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const queryClient = useQueryClient();
 
-  // контроль логіки пошуку і скидання сторінки
   useEffect(() => {
-    if (page === 1) {
-      setActualSearch(debouncedSearch.trim());
-    } else {
-      setPage(1);
-    }
+    setPage(1);
   }, [debouncedSearch]);
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['notes', actualSearch, page],
+    queryKey: ['notes', debouncedSearch, page],
     queryFn: () =>
       fetchNotes({
-        search: actualSearch || undefined,
+        search: debouncedSearch || undefined,
         page,
       }),
+    keepPreviousData: true,
   });
 
   const deleteMutation = useMutation({
@@ -48,7 +43,7 @@ export default function App() {
     },
   });
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number | string) => {
     deleteMutation.mutate(id);
   };
 
@@ -60,15 +55,18 @@ export default function App() {
       <header className={styles.toolbar}>
         <SearchBox
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={e => setSearch(e.target.value)}
         />
-        {data?.totalPages && data.totalPages > 1 && (
+
+        {/* показуємо Pagination лише якщо є більше 1 сторінки */}
+        {data?.totalPages > 1 && (
           <Pagination
             currentPage={page}
             totalPages={data.totalPages}
             onPageChange={setPage}
           />
         )}
+
         <button className={styles.button} onClick={openModal}>
           Create note +
         </button>
@@ -89,8 +87,6 @@ export default function App() {
             onSuccess={() => {
               closeModal();
               setSearch('');
-              setActualSearch('');
-              setPage(1);
             }}
           />
         </Modal>
