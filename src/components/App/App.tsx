@@ -47,14 +47,21 @@ export default function App() {
 
   return (
     <div className={styles.app}>
-      <header className={styles.toolbar}>
-        <SearchBox value={search} onChange={e => setSearch(e.target.value)} />
-        {data?.totalPages && data.totalPages > 1 && (
-          <Pagination
-            currentPage={page}
-            totalPages={data.totalPages}
-            onPageChange={setPage}
-          />
+  <header className={styles.toolbar}>
+    <SearchBox
+      value={search}
+      onChange={e => {
+        setSearch(e.target.value);
+        setPage(1);
+      }}
+    />
+    {data?.totalPages && data.totalPages > 1 && (
+      <Pagination
+        currentPage={page}
+        totalPages={data.totalPages}
+        onPageChange={setPage}
+      />
+    )}
         )}
         <button className={styles.button} onClick={openModal}>
           Create note +
