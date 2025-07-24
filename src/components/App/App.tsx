@@ -72,7 +72,12 @@ export default function App() {
 
       {isModalOpen && (
         <Modal onClose={closeModal}>
-          <NoteForm onSuccess={closeModal} />
+          <NoteForm
+            onSuccess={() => {
+              closeModal();
+              setSearch(''); // очищення поля пошуку
+            }}
+          />
         </Modal>
       )}
     </div>
