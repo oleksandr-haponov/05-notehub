@@ -12,22 +12,47 @@
     color: #212529;
   }
   
-  .input,
-  .textarea,
   .select {
-    margin-top: 4px;
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    resize: none;
-    background-color: #ffffff;
-    background-image: none; 
-    color: #212529;
-      appearance: none;           
-  -webkit-appearance: none;     
-  -moz-appearance: none;   
-  }
+  margin-top: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #212529;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394959b' stroke-width='2' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px 6px;
+}
+
+.textarea {
+  margin-top: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #212529;
+  resize: none;
+  outline: none;
+}
+
+.input {
+  margin-top: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #212529;
+  outline: none;
+}
 
   .input:focus,
   .textarea:focus,
