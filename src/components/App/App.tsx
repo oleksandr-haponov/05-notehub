@@ -62,7 +62,6 @@ export default function App() {
         onPageChange={setPage}
       />
     )}
-        )}
         <button className={styles.button} onClick={openModal}>
           Create note +
         </button>
@@ -82,7 +81,7 @@ export default function App() {
           <NoteForm
             onSuccess={() => {
               closeModal();
-              setSearch(''); // очищення поля пошуку
+              setSearch('');
             }}
           />
         </Modal>
