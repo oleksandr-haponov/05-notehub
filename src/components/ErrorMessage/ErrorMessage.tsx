@@ -1,9 +1,15 @@
-import styles from './ErrorMessage.module.css';
+import { ErrorMessage as FormikErrorMessage } from 'formik';
 
-interface ErrorMessageProps {
-  message: string;
+interface Props {
+  name: string;
 }
 
-export default function ErrorMessage({ message }: ErrorMessageProps) {
-  return <p className={styles.error}>{message}</p>;
+export default function ErrorMessage({ name }: Props) {
+  return (
+    <FormikErrorMessage
+      name={name}
+      component="p"
+      className="error"
+    />
+  );
 }
