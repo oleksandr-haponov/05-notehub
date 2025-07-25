@@ -1,13 +1,15 @@
-import { Formik, Form, Field, ErrorMessage as FormikError } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { createNote } from '../../services/noteService';
 import type { NoteTag } from '../../types/note';
+import ErrorMessage from '../ErrorMessage/ErrorMessage'; // ✅ власний компонент
 import styles from './NoteForm.module.css';
 
 interface NoteFormProps {
   onSuccess: () => void;
+  onCancel: () => void;
 }
 
 interface FormValues {
@@ -19,18 +21,18 @@ interface FormValues {
 const initialValues: FormValues = {
   title: '',
   content: '',
-  tag: 'Personal', // 🔧 Виправлено: "personal" → "Personal"
+  tag: 'Personal', // ✅ правильний тег
 };
 
 const validationSchema = Yup.object({
   title: Yup.string().required('Title is required'),
-  content: Yup.string().required('Content is required'),
+  content: Yup.string(), // ✅ необов'язкове
   tag: Yup.string()
     .oneOf(['Todo', 'Work', 'Personal', 'Meeting', 'Shopping'])
     .required(),
 });
 
-export default function NoteForm({ onSuccess }: NoteFormProps) {
+export default function NoteForm({ onSuccess, onCancel }: NoteFormProps) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -46,18 +48,15 @@ export default function NoteForm({ onSuccess }: NoteFormProps) {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values, actions) => {
-        mutation.mutate(values, {
-          onSuccess: () => {
-            actions.resetForm();
-          },
-        });
+        mutation.mutate(values);
+        actions.resetForm();
       }}
     >
       <Form className={styles.form}>
         <label className={styles.label}>
           Title
           <Field name="title" className={styles.input} />
-          <FormikError name="title" component="div" className={styles.error} />
+          <ErrorMessage name="title" />
         </label>
 
         <label className={styles.label}>
@@ -68,24 +67,33 @@ export default function NoteForm({ onSuccess }: NoteFormProps) {
             className={styles.textarea}
             rows={4}
           />
-          <FormikError name="content" component="div" className={styles.error} />
+          <ErrorMessage name="content" />
         </label>
 
         <label className={styles.label}>
           Tag
           <Field as="select" name="tag" className={styles.select}>
-            <option value="Personal">Personal</option>
-            <option value="Work">Work</option>
             <option value="Todo">Todo</option>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
             <option value="Meeting">Meeting</option>
             <option value="Shopping">Shopping</option>
           </Field>
-          <FormikError name="tag" component="div" className={styles.error} />
+          <ErrorMessage name="tag" />
         </label>
 
-        <button type="submit" className={styles.button}>
-          Create
-        </button>
+        <div className={styles.buttons}>
+          <button
+            type="button"
+            onClick={onCancel}
+            className={styles.cancelButton}
+          >
+            Cancel
+          </button>
+          <button type="submit" className={styles.button}>
+            Create note
+          </button>
+        </div>
       </Form>
     </Formik>
   );
