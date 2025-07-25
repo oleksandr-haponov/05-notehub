@@ -29,7 +29,7 @@ const validationSchema = Yup.object({
   content: Yup.string(),
   tag: Yup.string()
     .oneOf(['Todo', 'Work', 'Personal', 'Meeting', 'Shopping'])
-    .required(),
+    .required('Tag is required'),
 });
 
 export default function NoteForm({ onSuccess, onCancel }: NoteFormProps) {
@@ -53,13 +53,13 @@ export default function NoteForm({ onSuccess, onCancel }: NoteFormProps) {
       }}
     >
       <Form className={styles.form}>
-        <label className={styles.label}>
+        <label className={styles.formGroup}>
           Title
           <Field name="title" className={styles.input} />
           <ErrorMessage name="title" />
         </label>
 
-        <label className={styles.label}>
+        <label className={styles.formGroup}>
           Content
           <Field
             as="textarea"
@@ -70,7 +70,7 @@ export default function NoteForm({ onSuccess, onCancel }: NoteFormProps) {
           <ErrorMessage name="content" />
         </label>
 
-        <label className={styles.label}>
+        <label className={styles.formGroup}>
           Tag
           <Field as="select" name="tag" className={styles.select}>
             <option value="Todo">Todo</option>
@@ -82,7 +82,7 @@ export default function NoteForm({ onSuccess, onCancel }: NoteFormProps) {
           <ErrorMessage name="tag" />
         </label>
 
-        <div className={styles.buttons}>
+        <div className={styles.actions}>
           <button
             type="button"
             onClick={onCancel}
@@ -90,7 +90,11 @@ export default function NoteForm({ onSuccess, onCancel }: NoteFormProps) {
           >
             Cancel
           </button>
-          <button type="submit" className={styles.button}>
+          <button
+            type="submit"
+            className={styles.submitButton}
+            disabled={mutation.isPending}
+          >
             Create note
           </button>
         </div>
