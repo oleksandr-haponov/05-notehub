@@ -39,7 +39,7 @@ export default function App() {
         search: debouncedSearch || undefined,
         page,
       }),
-    gcTime: 0, // замість keepPreviousData
+    gcTime: 0,
     staleTime: 0,
   });
 
@@ -62,7 +62,7 @@ export default function App() {
       <header className={styles.toolbar}>
         <SearchBox value={search} onChange={e => setSearch(e.target.value)} />
 
-        {data?.notes.length > 0 && data.totalPages > 1 && (
+        {data && data.notes.length > 0 && data.totalPages > 1 && (
           <Pagination
             currentPage={page}
             totalPages={data.totalPages}
@@ -78,7 +78,7 @@ export default function App() {
       {isPending && <Loader />}
       {isError && <ErrorMessage message={error.message} />}
 
-      {data?.notes.length ? (
+      {data && data.notes.length > 0 ? (
         <NoteList notes={data.notes} onDelete={handleDelete} />
       ) : (
         !isPending && <p>No notes found</p>
