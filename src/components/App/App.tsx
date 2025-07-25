@@ -11,6 +11,7 @@ import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 import { fetchNotes, deleteNote } from '../../services/noteService';
+import type { FetchNotesResponse } from '../../services/noteService';
 
 import styles from './App.module.css';
 
@@ -26,17 +27,14 @@ export default function App() {
     setPage(1);
   }, [debouncedSearch]);
 
-  const trimmedSearch = debouncedSearch.trim();
-
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['notes', trimmedSearch, page],
+  const { data, isLoading, isError, error } = useQuery<FetchNotesResponse, Error>({
+    queryKey: ['notes', debouncedSearch, page],
     queryFn: () =>
       fetchNotes({
-        search: trimmedSearch.length > 0 ? trimmedSearch : undefined,
+        search: debouncedSearch || undefined,
         page,
       }),
-    enabled: trimmedSearch.length === 0 || !!trimmedSearch,
-    keepPreviousData: true,
+    // keepPreviousData: true, // видалено у react-query v5
   });
 
   const deleteMutation = useMutation({
@@ -61,8 +59,8 @@ export default function App() {
           onChange={e => setSearch(e.target.value)}
         />
 
-        {/* показываем пагинацию только если есть результаты и totalPages > 1 */}
-        {data?.notes?.length > 0 && data?.totalPages > 1 && (
+        {/* Показуємо пагінацію тільки якщо є нотатки і totalPages > 1 */}
+        {data?.notes.length > 0 && data.totalPages > 1 && (
           <Pagination
             currentPage={page}
             totalPages={data.totalPages}
@@ -76,9 +74,9 @@ export default function App() {
       </header>
 
       {isLoading && <Loader />}
-      {isError && <ErrorMessage message={(error as Error).message} />}
+      {isError && <ErrorMessage message={error.message} />}
 
-      {data?.notes?.length ? (
+      {data?.notes.length ? (
         <NoteList notes={data.notes} onDelete={handleDelete} />
       ) : (
         !isLoading && <p>No notes found</p>
