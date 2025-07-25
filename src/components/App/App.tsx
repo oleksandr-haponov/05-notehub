@@ -8,7 +8,6 @@ import SearchBox from '../SearchBox/SearchBox';
 import Pagination from '../Pagination/Pagination';
 import NoteList from '../NoteList/NoteList';
 import Loader from '../Loader/Loader';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 import { fetchNotes, deleteNote } from '../../services/noteService';
 import type { FetchNotesResponse } from '../../services/noteService';
@@ -76,7 +75,7 @@ export default function App() {
       </header>
 
       {isPending && <Loader />}
-      {isError && <ErrorMessage message={error.message} />}
+      {isError && <p className={styles.error}>{error.message}</p>}
 
       {data && data.notes.length > 0 ? (
         <NoteList notes={data.notes} onDelete={handleDelete} />
@@ -91,6 +90,7 @@ export default function App() {
               closeModal();
               setSearch('');
             }}
+            onCancel={closeModal}
           />
         </Modal>
       )}
