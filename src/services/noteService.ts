@@ -8,7 +8,7 @@ const instance = axios.create({
   baseURL: BASE_URL,
   headers: {
     Authorization: `Bearer ${TOKEN}`,
-    'Content-Type': 'application/json',
+    'Content-Type:': 'application/json',
   },
 });
 
@@ -34,12 +34,8 @@ export const fetchNotes = async ({
     params.search = search.trim();
   }
 
-  const { data } = await instance.get<{ notes: Note[]; totalPages: number }>('/notes', { params });
-
-  return {
-    notes: data.notes,
-    totalPages: data.totalPages,
-  };
+  const { data } = await instance.get<FetchNotesResponse>('/notes', { params });
+  return data;
 };
 
 interface CreateNotePayload {
@@ -53,7 +49,7 @@ export const createNote = async (note: CreateNotePayload): Promise<Note> => {
   return data;
 };
 
-export const deleteNote = async (id: string | number): Promise<Note> => {
+export const deleteNote = async (id: number | string): Promise<Note> => {
   const { data } = await instance.delete<Note>(`/notes/${id}`);
   return data;
 };
