@@ -19,13 +19,15 @@ interface FormValues {
 const initialValues: FormValues = {
   title: '',
   content: '',
-  tag: 'personal',
+  tag: 'Todo',
 };
 
 const validationSchema = Yup.object({
   title: Yup.string().required('Title is required'),
   content: Yup.string().required('Content is required'),
-  tag: Yup.string().oneOf(['personal', 'work', 'important']).required(),
+  tag: Yup.string()
+    .oneOf(['Todo', 'Work', 'Personal', 'Meeting', 'Shopping'])
+    .required(),
 });
 
 export default function NoteForm({ onSuccess }: NoteFormProps) {
@@ -72,9 +74,11 @@ export default function NoteForm({ onSuccess }: NoteFormProps) {
         <label className={styles.label}>
           Tag
           <Field as="select" name="tag" className={styles.select}>
-            <option value="personal">Personal</option>
-            <option value="work">Work</option>
-            <option value="important">Important</option>
+            <option value="Todo">Todo</option>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Meeting">Meeting</option>
+            <option value="Shopping">Shopping</option>
           </Field>
           <FormikError name="tag" component="div" className={styles.error} />
         </label>
