@@ -78,7 +78,7 @@ export default function App() {
       {isError && <p className={styles.error}>{error.message}</p>}
 
       {data && data.notes.length > 0 ? (
-        <NoteList notes={data.notes} onDelete={handleDelete} />
+        <NoteList notes={data.notes} />
       ) : (
         !isPending && <p>No notes found</p>
       )}
