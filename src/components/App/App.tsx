@@ -26,13 +26,16 @@ export default function App() {
     setPage(1);
   }, [debouncedSearch]);
 
+  const trimmedSearch = debouncedSearch.trim();
+
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['notes', debouncedSearch, page],
+    queryKey: ['notes', trimmedSearch, page],
     queryFn: () =>
       fetchNotes({
-        search: debouncedSearch || undefined,
+        search: trimmedSearch.length > 0 ? trimmedSearch : undefined,
         page,
       }),
+    enabled: trimmedSearch.length === 0 || !!trimmedSearch,
     keepPreviousData: true,
   });
 
@@ -58,7 +61,7 @@ export default function App() {
           onChange={e => setSearch(e.target.value)}
         />
 
-        {/* показуємо пагінацію тільки якщо є хоча б 1 результат і totalPages > 1 */}
+        {/* показываем пагинацию только если есть результаты и totalPages > 1 */}
         {data?.notes?.length > 0 && data?.totalPages > 1 && (
           <Pagination
             currentPage={page}
