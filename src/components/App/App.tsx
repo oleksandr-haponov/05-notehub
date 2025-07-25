@@ -49,10 +49,6 @@ export default function App() {
     },
   });
 
-  const handleDelete = (id: number | string) => {
-    deleteMutation.mutate(id);
-  };
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
