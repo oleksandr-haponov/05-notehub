@@ -44,8 +44,11 @@ export default function NoteForm({ onSuccess }: NoteFormProps) {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values, actions) => {
-        mutation.mutate(values);
-        actions.resetForm();
+        mutation.mutate(values, {
+          onSuccess: () => {
+            actions.resetForm();
+          },
+        });
       }}
     >
       <Form className={styles.form}>
