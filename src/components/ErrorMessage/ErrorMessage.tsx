@@ -1,4 +1,5 @@
 import { ErrorMessage as FormikErrorMessage } from 'formik';
+import styles from './ErrorMessage.module.css';
 
 interface Props {
   name: string;
@@ -9,7 +10,7 @@ export default function ErrorMessage({ name }: Props) {
     <FormikErrorMessage
       name={name}
       component="p"
-      className="error"
+      className={styles.error}
     />
   );
 }

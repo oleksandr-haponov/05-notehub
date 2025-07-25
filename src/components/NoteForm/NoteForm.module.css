@@ -41,6 +41,7 @@
   color: #212529;
   resize: none;
   outline: none;
+  height: 140px;
 }
 
 .input {
@@ -100,11 +101,5 @@
   
   .cancelButton:hover {
     background-color: #e2e6ea;
-  }
-  
-  .error {
-    color: #dc3545;
-    font-size: 12px;
-    margin-top: 4px;
   }
   
