@@ -19,7 +19,7 @@ interface FormValues {
 const initialValues: FormValues = {
   title: '',
   content: '',
-  tag: 'Todo',
+  tag: 'Personal', // 🔧 Виправлено: "personal" → "Personal"
 };
 
 const validationSchema = Yup.object({
@@ -74,9 +74,9 @@ export default function NoteForm({ onSuccess }: NoteFormProps) {
         <label className={styles.label}>
           Tag
           <Field as="select" name="tag" className={styles.select}>
-            <option value="Todo">Todo</option>
-            <option value="Work">Work</option>
             <option value="Personal">Personal</option>
+            <option value="Work">Work</option>
+            <option value="Todo">Todo</option>
             <option value="Meeting">Meeting</option>
             <option value="Shopping">Shopping</option>
           </Field>
