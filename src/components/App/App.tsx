@@ -27,14 +27,20 @@ export default function App() {
     setPage(1);
   }, [debouncedSearch]);
 
-  const { data, isLoading, isError, error } = useQuery<FetchNotesResponse, Error>({
+  const {
+    data,
+    isPending,
+    isError,
+    error,
+  } = useQuery<FetchNotesResponse, Error>({
     queryKey: ['notes', debouncedSearch, page],
     queryFn: () =>
       fetchNotes({
         search: debouncedSearch || undefined,
         page,
       }),
-    // keepPreviousData: true, // видалено у react-query v5
+    gcTime: 0, // замість keepPreviousData
+    staleTime: 0,
   });
 
   const deleteMutation = useMutation({
@@ -54,12 +60,8 @@ export default function App() {
   return (
     <div className={styles.app}>
       <header className={styles.toolbar}>
-        <SearchBox
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
+        <SearchBox value={search} onChange={e => setSearch(e.target.value)} />
 
-        {/* Показуємо пагінацію тільки якщо є нотатки і totalPages > 1 */}
         {data?.notes.length > 0 && data.totalPages > 1 && (
           <Pagination
             currentPage={page}
@@ -73,13 +75,13 @@ export default function App() {
         </button>
       </header>
 
-      {isLoading && <Loader />}
+      {isPending && <Loader />}
       {isError && <ErrorMessage message={error.message} />}
 
       {data?.notes.length ? (
         <NoteList notes={data.notes} onDelete={handleDelete} />
       ) : (
-        !isLoading && <p>No notes found</p>
+        !isPending && <p>No notes found</p>
       )}
 
       {isModalOpen && (
