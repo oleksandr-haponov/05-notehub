@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { createNote } from '../../services/noteService';
 import type { NoteTag } from '../../types/note';
-import ErrorMessage from '../ErrorMessage/ErrorMessage'; // ✅ власний компонент
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import styles from './NoteForm.module.css';
 
 interface NoteFormProps {
@@ -21,12 +21,12 @@ interface FormValues {
 const initialValues: FormValues = {
   title: '',
   content: '',
-  tag: 'Personal', // ✅ правильний тег
+  tag: 'Personal',
 };
 
 const validationSchema = Yup.object({
   title: Yup.string().required('Title is required'),
-  content: Yup.string(), // ✅ необов'язкове
+  content: Yup.string(),
   tag: Yup.string()
     .oneOf(['Todo', 'Work', 'Personal', 'Meeting', 'Shopping'])
     .required(),
