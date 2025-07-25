@@ -12,6 +12,8 @@ export default function Pagination({
   totalPages,
   onPageChange,
 }: PaginationProps) {
+  if (totalPages <= 1) return null; // 🛡 Захист — не рендерити якщо сторінок немає
+
   return (
     <ReactPaginate
       pageCount={totalPages}

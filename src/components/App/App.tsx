@@ -58,8 +58,8 @@ export default function App() {
           onChange={e => setSearch(e.target.value)}
         />
 
-        {/* показуємо Pagination лише якщо є більше 1 сторінки */}
-        {data?.totalPages > 1 && (
+        {/* показуємо пагінацію тільки якщо є хоча б 1 результат і totalPages > 1 */}
+        {data?.notes?.length > 0 && data?.totalPages > 1 && (
           <Pagination
             currentPage={page}
             totalPages={data.totalPages}
