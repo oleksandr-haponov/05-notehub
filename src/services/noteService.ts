@@ -18,7 +18,7 @@ interface FetchNotesParams {
   search?: string;
 }
 
-interface FetchNotesResponse {
+export interface FetchNotesResponse {
   notes: Note[];
   totalPages: number;
 }
